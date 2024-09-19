@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: "searchEvents"
+  docker:
+    compose:
+      skip:
+        in-tests: false
+
+logging:
+  level:
+    ROOT: INFO
+    com:
+      fever: DEBUG
+    org:
+      springframework: INFO
