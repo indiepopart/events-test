@@ -1,9 +1,14 @@
 package com.fever.fetch.service;
 
+import com.fever.fetch.model.BaseEventConverter;
+import com.fever.fetch.model.EventDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.Validator;
+
+import java.util.List;
 
 @Component
 public class EventPollTask {
@@ -13,15 +18,24 @@ public class EventPollTask {
 
     private final ElasticOperationsService elasticOperationsService;
 
-    public EventPollTask(EventListService eventListService, ElasticOperationsService elasticOperationsService) {
+    private final BaseEventConverter eventDocumentConverter;
+
+    private Validator validator;
+
+    public EventPollTask(EventListService eventListService, ElasticOperationsService elasticOperationsService, BaseEventConverter eventDocumentConverter) {
         this.eventListService = eventListService;
         this.elasticOperationsService = elasticOperationsService;
+        this.eventDocumentConverter = eventDocumentConverter;
     }
 
     @Scheduled(fixedDelayString = "${fever.fetch.fixed-delay.in.milliseconds}")
-    public void pollEvents() {
+    public void fetch() {
         logger.info("Polling events");
-        EventList eventList = this.eventListService.pollEvents();
-        this.elasticOperationsService.save(eventList.getOutput());
+        EventList eventList = this.eventListService.getEvents();
+
+        List<EventDocument> documents = eventList.getOutput().stream()
+                .map(eventDocumentConverter::convert).toList();
+
+        this.elasticOperationsService.save(documents);
     }
 }

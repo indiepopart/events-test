@@ -19,7 +19,7 @@ public class EventListService {
                 .build();
     }
 
-    public EventList pollEvents() {
+    public EventList getEvents() {
         ResponseEntity<EventList> response = this.restClient.get().uri("/api/events").retrieve().toEntity(EventList.class);
         return response.getBody();
     }

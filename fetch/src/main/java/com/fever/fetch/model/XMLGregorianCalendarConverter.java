@@ -18,7 +18,7 @@ public class XMLGregorianCalendarConverter implements Converter<XMLGregorianCale
     @Override
     public Date convert(XMLGregorianCalendar source) {
         if (source == null){
-            logger.warn("XMLGregorianCalendar is null {}", source);
+            logger.debug("XMLGregorianCalendar is null {}", source);
             return null;
         }
         GregorianCalendar calendar = source.toGregorianCalendar();
