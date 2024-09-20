@@ -7,18 +7,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 @Component
-public class InsertEvents implements CommandLineRunner {
+public class InsertEventsCommand implements CommandLineRunner {
 
-    private Logger logger = LoggerFactory.getLogger(InsertEvents.class);
+    private Logger logger = LoggerFactory.getLogger(InsertEventsCommand.class);
 
     private ElasticsearchOperations elasticsearchOperations;
 
-    public InsertEvents(ElasticsearchOperations elasticsearchOperations) {
+    public InsertEventsCommand(ElasticsearchOperations elasticsearchOperations) {
         this.elasticsearchOperations = elasticsearchOperations;
     }
 
@@ -63,5 +64,10 @@ public class InsertEvents implements CommandLineRunner {
         elasticsearchOperations.save(ed1);
         elasticsearchOperations.save(ed2);
         elasticsearchOperations.save(ed3);
+
+        EventDocument document = elasticsearchOperations.get("1", EventDocument.class);
+        Assert.notNull(document, "Document not found");
+
+        logger.debug("Events inserted");
     }
 }

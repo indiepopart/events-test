@@ -5,16 +5,12 @@ spring:
     name: fetch
   docker:
     compose:
-      lifecycle-management: start-only
-      skip:
-        in-tests: false
-
+      lifecycle-management: start-and-stop
 
 fever:
   fetch:
     base-url: "https://provider.code-challenge.feverup.com"
     fixed-delay.in.milliseconds: 1000
-
 
 logging:
   level:

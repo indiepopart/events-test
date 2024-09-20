@@ -1,12 +1,20 @@
-package com.fever.search;
+package com.fever.search.web;
 
-import com.fever.search.web.SearchEventsController;
+import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.HostConfig;
+import com.github.dockerjava.api.model.PortBinding;
+import com.github.dockerjava.api.model.Ports;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.elasticsearch.ElasticsearchContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.time.Duration;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -14,11 +22,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@Testcontainers
 @AutoConfigureMockMvc
-public class SearchEventsIntegrationTest {
+public class SearchEventsControllerIntegrationTest {
+
+    @Container
+    @ServiceConnection
+    static ElasticsearchContainer elasticsearchContainer = new ElasticsearchContainer("elasticsearch:8.15.1").withExposedPorts(9200).withEnv("discovery.type", "single-node").withEnv("xpack.security.enabled", "false").withStartupTimeout(Duration.ofSeconds(60)).withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(9200), new ExposedPort(9200)))));
 
     @Autowired
     private MockMvc mockMvc;
+    ;
 
     @Test
     public void testSearchEvents() throws Exception {

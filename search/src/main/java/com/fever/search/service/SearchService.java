@@ -1,6 +1,8 @@
 package com.fever.search.service;
 
 import com.fever.search.model.EventSummary;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
@@ -12,6 +14,8 @@ import java.util.*;
 
 @Service
 public class SearchService {
+
+    private static Logger logger = LoggerFactory.getLogger(SearchService.class);
 
     private EventDocumentConverter eventDocumentConverter;
     private ElasticsearchOperations elasticSearchOperations;
@@ -29,6 +33,7 @@ public class SearchService {
         // @formatter:on
         Query query = new CriteriaQuery(criteria);
         SearchHits<EventDocument> searchHits = elasticSearchOperations.search(query, EventDocument.class);
+        logger.debug("Found {} events", searchHits.getTotalHits());
         return searchHits.stream().map(searchHit -> eventDocumentConverter.convert(searchHit.getContent())).toList();
     }
 }

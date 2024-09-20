@@ -60,4 +60,36 @@ public class SearchEventsControllerTest {
                 .andExpect(jsonPath("$.data[0].maxPrice").value("100.0"));
         // @formatter:on
     }
+
+    @Test
+    public void testSearch_missingParams() throws Exception {
+        this.mockMvc.perform(get("/search")
+                        .param("starts_at", "2021-01-01T00:00:00Z"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").isNotEmpty())
+                .andExpect(jsonPath("$.error.code").isNotEmpty())
+                .andExpect(jsonPath("$.error.message").isNotEmpty());
+    }
+
+    @Test
+    public void testSearch_paramTypeMissmatch() throws Exception {
+        this.mockMvc.perform(get("/search")
+                        .param("starts_at", "2021-01-01 00:00:00")
+                        .param("ends_at", "2021-12-31 23:59:59"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").isNotEmpty())
+                .andExpect(jsonPath("$.error.code").isNotEmpty())
+                .andExpect(jsonPath("$.error.message").isNotEmpty());;
+    }
+
+    @Test
+    public void testSearch_unknownError() throws Exception {
+
+        given(searchService.searchEvents(any(), any())).willThrow(new RuntimeException("Unknown error"));
+
+        this.mockMvc.perform(get("/search")
+                .param("starts_at", "2021-01-01T00:00:00Z")
+                .param("ends_at", "2021-12-31T23:59:59Z"))
+                .andExpect(status().isInternalServerError());
+    }
 }

@@ -22,6 +22,7 @@ public class XMLGregorianCalendarConverter implements Converter<XMLGregorianCale
             return null;
         }
         GregorianCalendar calendar = source.toGregorianCalendar();
+        calendar.set(GregorianCalendar.MILLISECOND, 0);
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
         return calendar.getTime();
     }
