@@ -34,6 +34,7 @@ public class EventPollTask {
         EventList eventList = this.eventListService.getEvents();
 
         List<EventDocument> documents = eventList.getOutput().stream()
+                .filter(event -> event.getSellMode().equals(BaseEvent.SELL_MODE_OFFLINE))
                 .map(eventDocumentConverter::convert).toList();
 
         this.elasticOperationsService.save(documents);

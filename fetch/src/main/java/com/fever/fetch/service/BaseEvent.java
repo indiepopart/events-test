@@ -5,6 +5,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 
 public class BaseEvent {
 
+    public static final String SELL_MODE_OFFLINE = "offline";
 
     private String baseEventId;
     private String sellMode;
