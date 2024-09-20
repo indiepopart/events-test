@@ -23,8 +23,9 @@ public class EventDocument {
     @Field(type= FieldType.Date)
     private Date eventEndDate;
 
+    @Field(type= FieldType.Double)
     private Double minPrice;
-
+    @Field(type= FieldType.Double)
     private Double maxPrice;
 
     public EventDocument() {

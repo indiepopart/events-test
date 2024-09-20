@@ -1,14 +1,11 @@
 package com.fever.fetch.service;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElements;
-import jakarta.xml.bind.annotation.XmlID;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.List;
-import java.util.Objects;
 
 
 public class Event {
@@ -28,6 +25,7 @@ public class Event {
     public String getEventId() {
         return eventId;
     }
+
     @XmlAttribute(name = "event_id")
     public void setEventId(String eventId) {
         this.eventId = eventId;
@@ -45,6 +43,7 @@ public class Event {
     public XMLGregorianCalendar getEndDate() {
         return endDate;
     }
+
     @XmlAttribute(name = "event_end_date")
     public void setEndDate(XMLGregorianCalendar endDate) {
         this.endDate = endDate;

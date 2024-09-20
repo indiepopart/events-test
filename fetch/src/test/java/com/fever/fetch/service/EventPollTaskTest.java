@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.IndexOperations;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.Criteria;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -24,18 +28,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 public class EventPollTaskTest {
 
+    // @formatter:off
     @Container
     @ServiceConnection
-    static ElasticsearchContainer elasticsearchContainer =
-            new ElasticsearchContainer("elasticsearch:8.15.1")
-                    .withExposedPorts(9200)
-                    .withEnv("discovery.type", "single-node")
-                    .withEnv("xpack.security.enabled", "false")
-                    .withStartupTimeout(Duration.ofSeconds(60))
-                    .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
-                            new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(9200), new ExposedPort(9200)))
-                    ));;
-
+    static ElasticsearchContainer elasticsearchContainer = new ElasticsearchContainer("elasticsearch:8.15.1")
+            .withExposedPorts(9200)
+            .withEnv("discovery.type", "single-node")
+            .withEnv("xpack.security.enabled", "false")
+            .withStartupTimeout(Duration.ofSeconds(60))
+            .withCreateContainerCmdModifier(cmd ->
+                    cmd.withHostConfig(new HostConfig()
+                            .withPortBindings(new PortBinding(Ports.Binding.bindPort(9200), new ExposedPort(9200)))));
+    // @formatter:on
     @Autowired
     private EventPollTask eventPollTask;
 
@@ -46,7 +50,10 @@ public class EventPollTaskTest {
     public void testFetch() {
         eventPollTask.fetch();
 
-        EventDocument document = elasticsearchOperations.get("291", EventDocument.class);
-        assertThat(document).isNotNull();
+        elasticsearchOperations.indexOps(EventDocument.class).refresh();
+
+        Criteria criteria = new Criteria("minPrice").greaterThan(0.0);
+        SearchHits<EventDocument> hits = elasticsearchOperations.search(new CriteriaQuery(criteria), EventDocument.class);
+        assertThat(hits.getTotalHits()).isGreaterThan(0);
     }
 }

@@ -16,15 +16,15 @@ public class EventPollTask {
     private static Logger logger = LoggerFactory.getLogger(EventPollTask.class);
     private final EventListService eventListService;
 
-    private final ElasticOperationsService elasticOperationsService;
+    private final ElasticsearchService elasticsearchService;
 
     private final BaseEventConverter eventDocumentConverter;
 
     private Validator validator;
 
-    public EventPollTask(EventListService eventListService, ElasticOperationsService elasticOperationsService, BaseEventConverter eventDocumentConverter) {
+    public EventPollTask(EventListService eventListService, ElasticsearchService elasticOperationsService, BaseEventConverter eventDocumentConverter) {
         this.eventListService = eventListService;
-        this.elasticOperationsService = elasticOperationsService;
+        this.elasticsearchService = elasticOperationsService;
         this.eventDocumentConverter = eventDocumentConverter;
     }
 
@@ -34,9 +34,9 @@ public class EventPollTask {
         EventList eventList = this.eventListService.getEvents();
 
         List<EventDocument> documents = eventList.getOutput().stream()
-                .filter(event -> event.getSellMode().equals(BaseEvent.SELL_MODE_OFFLINE))
+                .filter(event -> event.getSellMode().equals(BaseEvent.SELL_MODE_ONLINE))
                 .map(eventDocumentConverter::convert).toList();
 
-        this.elasticOperationsService.save(documents);
+        elasticsearchService.save(documents);
     }
 }

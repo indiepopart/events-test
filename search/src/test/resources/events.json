@@ -1,0 +1,26 @@
+[
+  {
+    "id":"1",
+    "title":"Event 1",
+    "eventStartDate":1612175405000,
+    "eventEndDate":1612182609000,
+    "minPrice":10.0,
+    "maxPrice":100.0
+  },
+  {
+    "id":"2",
+    "title":"Los Angeles Lakers vs. Golden State Warriors",
+    "eventStartDate":1549060205000,
+    "eventEndDate":1549063805000,
+    "minPrice":10.0,
+    "maxPrice":100.0
+  },
+  {
+    "id":"3",
+    "title":"Las Vegas Raiders vs. San Francisco 49ers",
+    "eventStartDate":1733092205000,
+    "eventEndDate":1733614205000,
+    "minPrice":10.0,
+    "maxPrice":100.0
+  }
+]

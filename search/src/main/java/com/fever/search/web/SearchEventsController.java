@@ -4,7 +4,7 @@ package com.fever.search.web;
 import com.fever.search.model.EventSummary;
 import com.fever.search.model.SearchError;
 import com.fever.search.model.SearchResponse;
-import com.fever.search.service.SearchService;
+import com.fever.search.service.ElasticsearchService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +21,16 @@ import java.util.Date;
 @RestController
 public class SearchEventsController {
 
-    private SearchService searchService;
+    private ElasticsearchService elasticsearchService;
 
-    public SearchEventsController(SearchService searchService) {
-        this.searchService = searchService;
+    public SearchEventsController(ElasticsearchService searchService) {
+        this.elasticsearchService = searchService;
     }
 
     @GetMapping("/search")
     public ResponseEntity<?> searchEvents(@RequestParam(name="starts_at") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startsAt,
                                           @RequestParam(name="ends_at") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endsAt) {
-        List<EventSummary> eventSummaryList = searchService.searchEvents(startsAt, endsAt);
+        List<EventSummary> eventSummaryList = elasticsearchService.searchEvents(startsAt, endsAt);
         SearchResponse response = new SearchResponse(eventSummaryList, null);
         return ResponseEntity.ok(response);
     }

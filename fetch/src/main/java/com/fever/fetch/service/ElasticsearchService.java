@@ -13,14 +13,14 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class ElasticOperationsService {
+public class ElasticsearchService {
 
-    private static Logger logger = LoggerFactory.getLogger(ElasticOperationsService.class);
+    private static Logger logger = LoggerFactory.getLogger(ElasticsearchService.class);
 
     private ElasticsearchOperations elasticSearchOperations;
     private Validator validator;
 
-    public ElasticOperationsService(ElasticsearchOperations elasticSearchOperations, Validator validator) {
+    public ElasticsearchService(ElasticsearchOperations elasticSearchOperations, Validator validator) {
         this.elasticSearchOperations = elasticSearchOperations;
         this.validator = validator;
     }

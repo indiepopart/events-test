@@ -1,7 +1,7 @@
 package com.fever.search.web;
 
 import com.fever.search.model.EventSummary;
-import com.fever.search.service.SearchService;
+import com.fever.search.service.ElasticsearchService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,7 +25,7 @@ public class SearchEventsControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private SearchService searchService;
+    private ElasticsearchService searchService;
 
     @Test
     public void testSearchEvents() throws Exception {

@@ -1,6 +1,7 @@
 package com.fever.fetch.model;
 
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -15,6 +16,7 @@ public class EventDocument {
     @Id
     private String id;
 
+    @NotEmpty
     private String title;
 
     @Field(type= FieldType.Date)
@@ -25,8 +27,12 @@ public class EventDocument {
     @NotNull
     private Date eventEndDate;
 
+    @Field(type= FieldType.Double)
+    @NotNull
     private Double minPrice;
 
+    @Field(type= FieldType.Double)
+    @NotNull
     private Double maxPrice;
 
     public EventDocument() {

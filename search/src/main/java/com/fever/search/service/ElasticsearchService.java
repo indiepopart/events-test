@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class SearchService {
+public class ElasticsearchService {
 
-    private static Logger logger = LoggerFactory.getLogger(SearchService.class);
+    private static Logger logger = LoggerFactory.getLogger(ElasticsearchService.class);
 
     private EventDocumentConverter eventDocumentConverter;
     private ElasticsearchOperations elasticSearchOperations;
 
-    public SearchService(EventDocumentConverter eventDocumentConverter, ElasticsearchOperations elasticSearchOperations) {
+    public ElasticsearchService(EventDocumentConverter eventDocumentConverter, ElasticsearchOperations elasticSearchOperations) {
         this.eventDocumentConverter = eventDocumentConverter;
         this.elasticSearchOperations = elasticSearchOperations;
     }
@@ -28,8 +28,12 @@ public class SearchService {
     public List<EventSummary> searchEvents(Date startsAt, Date endsAt) {
         // @formatter:off
 
-        Criteria criteria = new Criteria("eventStartDate").greaterThanEqual(startsAt).lessThanEqual(endsAt)
-                .and("eventEndDate").greaterThanEqual(startsAt).lessThanEqual(endsAt);
+        Criteria criteria = new Criteria("eventStartDate")
+                .greaterThanEqual(startsAt)
+                .lessThanEqual(endsAt)
+                .and("eventEndDate")
+                .greaterThanEqual(startsAt)
+                .lessThanEqual(endsAt);
         // @formatter:on
         Query query = new CriteriaQuery(criteria);
         SearchHits<EventDocument> searchHits = elasticSearchOperations.search(query, EventDocument.class);

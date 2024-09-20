@@ -5,14 +5,16 @@ import com.fever.search.service.EventDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.io.InputStream;
 
 @Component
+@Profile("integration-test")
 public class InsertEventsCommand implements CommandLineRunner {
 
     private Logger logger = LoggerFactory.getLogger(InsertEventsCommand.class);
@@ -25,49 +27,19 @@ public class InsertEventsCommand implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        logger.debug("Inserting events into Elasticsearch");
+        logger.debug("Inserting events.json into Elasticsearch");
 
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.set(GregorianCalendar.MILLISECOND, 0);
-        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+        InputStream stream = this.getClass().getClassLoader().getResourceAsStream("events.json");
+        ObjectMapper objectMapper = new ObjectMapper();
+        EventDocument[] documents = objectMapper.readValue(stream, EventDocument[].class);
+        elasticsearchOperations.save(documents);
 
-        EventDocument ed1 = new EventDocument();
-        ed1.setId("1");
-        ed1.setTitle("Event 1");
-        calendar.set(2021,1,1,10,30,5);
-        ed1.setEventStartDate(calendar.getTime());
-        calendar.set(2021,1,1,12,30,9);
-        ed1.setEventEndDate(calendar.getTime());
-        ed1.setMinPrice(10.0);
-        ed1.setMaxPrice(100.0);
+        logger.debug("Events inserted");
 
-        EventDocument ed2 = new EventDocument();
-        ed2.setId("2");
-        ed2.setTitle("Los Angeles Lakers vs. Golden State Warriors");
-        calendar.set(2019,1,1,22,30,5);
-        ed2.setEventStartDate(calendar.getTime());
-        calendar.set(2019,1,1,23,30,5);
-        ed2.setEventEndDate(calendar.getTime());
-        ed2.setMinPrice(10.0);
-        ed2.setMaxPrice(100.0);
-
-        EventDocument ed3 = new EventDocument();
-        ed3.setId("3");
-        ed3.setTitle("Las Vegas Raiders vs. San Francisco 49ers");
-        calendar.set(2024,11,1,22,30,5);
-        ed3.setEventStartDate(calendar.getTime());
-        calendar.set(2024,11,7,23,30,5);
-        ed3.setEventEndDate(calendar.getTime());
-        ed3.setMinPrice(10.0);
-        ed3.setMaxPrice(100.0);
-
-        elasticsearchOperations.save(ed1);
-        elasticsearchOperations.save(ed2);
-        elasticsearchOperations.save(ed3);
+        elasticsearchOperations.indexOps(EventDocument.class).refresh();
 
         EventDocument document = elasticsearchOperations.get("1", EventDocument.class);
         Assert.notNull(document, "Document not found");
 
-        logger.debug("Events inserted");
     }
 }
