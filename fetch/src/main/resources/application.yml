@@ -1,0 +1,31 @@
+spring:
+  main:
+    web-application-type: none
+  application:
+    name: fetch
+  docker:
+    compose:
+      lifecycle-management: start-only
+      skip:
+        in-tests: false
+
+
+fever:
+  fetch:
+    base-url: "https://provider.code-challenge.feverup.com"
+    fixed-delay.in.milliseconds: 1000
+
+
+logging:
+  level:
+    ROOT: INFO
+    org:
+      apache:
+        hc:
+          client5:
+            http: INFO
+      glassfish:
+        jaxb: DEBUG
+    com:
+      fever: DEBUG
+
