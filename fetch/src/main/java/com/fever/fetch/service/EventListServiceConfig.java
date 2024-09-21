@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @PropertySource("classpath:application.yml")
-public class EventListServiceConfiguration {
+public class EventListServiceConfig {
 
     @Value("${fever.fetch.base-url}")
     private String baseUrl;

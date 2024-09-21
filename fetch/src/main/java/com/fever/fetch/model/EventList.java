@@ -1,4 +1,4 @@
-package com.fever.fetch.service;
+package com.fever.fetch.model;
 
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;

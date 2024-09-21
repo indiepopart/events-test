@@ -1,5 +1,7 @@
 package com.fever.fetch.service;
 
+import com.fever.fetch.model.BaseEvent;
+import com.fever.fetch.model.EventList;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import org.junit.jupiter.api.Test;

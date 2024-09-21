@@ -1,4 +1,4 @@
-package com.fever.fetch.service;
+package com.fever.fetch.model;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -6,11 +6,9 @@ import jakarta.xml.bind.annotation.XmlElement;
 public class BaseEvent {
 
     public static final String SELL_MODE_ONLINE = "online";
-
     private String baseEventId;
     private String sellMode;
     private String title;
-
     private Event event;
 
     public String getBaseEventId() {

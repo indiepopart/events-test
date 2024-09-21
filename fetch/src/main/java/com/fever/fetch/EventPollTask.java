@@ -1,7 +1,11 @@
-package com.fever.fetch.service;
+package com.fever.fetch;
 
 import com.fever.fetch.model.BaseEventConverter;
 import com.fever.fetch.model.EventDocument;
+import com.fever.fetch.model.BaseEvent;
+import com.fever.fetch.service.ElasticsearchService;
+import com.fever.fetch.model.EventList;
+import com.fever.fetch.service.EventListService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;

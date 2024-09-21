@@ -1,8 +1,5 @@
 package com.fever.fetch.model;
 
-import com.fever.fetch.service.BaseEvent;
-import com.fever.fetch.service.Event;
-import com.fever.fetch.service.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
