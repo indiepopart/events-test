@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Component
@@ -35,7 +33,7 @@ public class BaseEventConverter implements Converter<BaseEvent, EventDocument> {
         document.setEventStartDate(startDate);
         document.setEventEndDate(endDate);
         List<Zone> zones = event.getZones();
-        if (zones == null || zones.isEmpty()){
+        if (zones == null || zones.isEmpty()) {
             return document;
         }
         DoubleSummaryStatistics statistics = zones.stream().collect(Collectors.summarizingDouble(Zone::getPrice));
