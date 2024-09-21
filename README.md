@@ -62,4 +62,4 @@ How to scale this application to focus on performance. The provider response can
 - Elasticsearch sharding: Documents are distributed in an index across ultiple shards, across multiple nodes, to increase capacity.
 - Follow Elasticsearch recommendations for search speed
 - Elasticsearch location: Deploy as close to the consumer service to minimize network delays
-- Horizontal microservice scalability through replicas. Load balancing and autoscaling are common techniques.
+- Horizontal microservice scaling through replicas. Load balancing and autoscaling are common techniques.
