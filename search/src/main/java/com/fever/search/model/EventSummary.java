@@ -1,5 +1,6 @@
 package com.fever.search.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.math.BigDecimal;
@@ -12,16 +13,22 @@ public class EventSummary {
 
     private String title;
 
+    @JsonProperty("start_date")
     private String startDate;
 
+    @JsonProperty("start_time")
     private String startTime;
 
+    @JsonProperty("end_date")
     private String endDate;
 
+    @JsonProperty("end_time")
     private String endTime;
 
+    @JsonProperty("min_price")
     private Double minPrice;
 
+    @JsonProperty("max_price")
     private Double maxPrice;
 
     public String getId() {

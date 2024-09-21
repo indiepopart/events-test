@@ -1,26 +1,27 @@
 package com.fever.search.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class SearchResponse {
 
-    private List<EventSummary> data;
-
+    private SearchData data;
     private SearchError error;
 
     public SearchResponse() {
     }
 
-    public SearchResponse(List<EventSummary> data, SearchError error) {
-        this.data = data;
+    public SearchResponse(List<EventSummary> events, SearchError error) {
+        this.data = new SearchData(events);
         this.error = error;
     }
 
-    public List<EventSummary> getData() {
+    public SearchData getData() {
         return data;
     }
 
-    public void setData(List<EventSummary> data) {
+    public void setData(SearchData data) {
         this.data = data;
     }
 

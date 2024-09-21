@@ -48,16 +48,16 @@ public class SearchEventsControllerTest {
                 .param("starts_at", "2021-01-01T00:00:00Z")
                 .param("ends_at", "2021-12-31T23:59:59Z"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data", hasSize(1)))
-                .andExpect(jsonPath("$.data[0].id").value("123e4567-e89b-12d3-a456-426614174000"))
-                .andExpect(jsonPath("$.data[0].title").value("Test Event"))
-                .andExpect(jsonPath("$.data[0].startDate").value("2021-01-01"))
-                .andExpect(jsonPath("$.data[0].startTime").value("10:30:05"))
-                .andExpect(jsonPath("$.data[0].endDate").value("2021-02-01"))
-                .andExpect(jsonPath("$.data[0].endTime").value("12:30:15"))
-                .andExpect(jsonPath("$.data[0].minPrice").value("10.0"))
-                .andExpect(jsonPath("$.data[0].maxPrice").value("100.0"));
+                .andExpect(jsonPath("$.data.events").isArray())
+                .andExpect(jsonPath("$.data.events", hasSize(1)))
+                .andExpect(jsonPath("$.data.events[0].id").value("123e4567-e89b-12d3-a456-426614174000"))
+                .andExpect(jsonPath("$.data.events[0].title").value("Test Event"))
+                .andExpect(jsonPath("$.data.events[0].start_date").value("2021-01-01"))
+                .andExpect(jsonPath("$.data.events[0].start_time").value("10:30:05"))
+                .andExpect(jsonPath("$.data.events[0].end_date").value("2021-02-01"))
+                .andExpect(jsonPath("$.data.events[0].end_time").value("12:30:15"))
+                .andExpect(jsonPath("$.data.events[0].min_price").value("10.0"))
+                .andExpect(jsonPath("$.data.events[0].max_price").value("100.0"));
         // @formatter:on
     }
 

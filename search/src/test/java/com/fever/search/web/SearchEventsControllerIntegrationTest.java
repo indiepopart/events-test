@@ -44,8 +44,8 @@ public class SearchEventsControllerIntegrationTest {
                         .param("starts_at", "2017-01-01T00:00:00Z")
                         .param("ends_at", "2025-12-31T23:59:59Z"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data", hasSize(3)));
+                .andExpect(jsonPath("$.data.events").isArray())
+                .andExpect(jsonPath("$.data.events", hasSize(3)));
         // @formatter:on
     }
 
@@ -57,8 +57,8 @@ public class SearchEventsControllerIntegrationTest {
                         .param("starts_at", "2021-02-01T10:30:05Z")
                         .param("ends_at", "2021-02-01T12:30:09Z"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data", hasSize(1)));
+                .andExpect(jsonPath("$.data.events").isArray())
+                .andExpect(jsonPath("$.data.events", hasSize(1)));
         // @formatter:on
     }
 }
