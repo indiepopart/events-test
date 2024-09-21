@@ -6,7 +6,11 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.DoubleSummaryStatistics;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Component
@@ -30,12 +34,13 @@ public class BaseEventConverter implements Converter<BaseEvent, EventDocument> {
         Date endDate = dateConverter.convert(event.getEndDate());
         document.setEventStartDate(startDate);
         document.setEventEndDate(endDate);
-        if (!event.getZones().isEmpty()) {
-            Optional<Zone> maxPriceZone = event.getZones().stream().max((z1, z2) -> z1.getPrice().compareTo(z2.getPrice()));
-            Optional<Zone> minPriceZone = event.getZones().stream().min((z1, z2) -> z1.getPrice().compareTo(z2.getPrice()));
-            document.setMaxPrice(maxPriceZone.get().getPrice());
-            document.setMinPrice(minPriceZone.get().getPrice());
+        List<Zone> zones = event.getZones();
+        if (zones == null || zones.isEmpty()){
+            return document;
         }
+        DoubleSummaryStatistics statistics = zones.stream().collect(Collectors.summarizingDouble(Zone::getPrice));
+        document.setMaxPrice(statistics.getMax());
+        document.setMinPrice(statistics.getMin());
         return document;
     }
 }
