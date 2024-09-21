@@ -12,9 +12,12 @@ public class SearchResponse {
     public SearchResponse() {
     }
 
-    public SearchResponse(List<EventSummary> events, SearchError error) {
-        this.data = new SearchData(events);
+    public SearchResponse(SearchError error) {
         this.error = error;
+    }
+
+    public SearchResponse(List<EventSummary> events) {
+        this.data = new SearchData(events);
     }
 
     public SearchData getData() {

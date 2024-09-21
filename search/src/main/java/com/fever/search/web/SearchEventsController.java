@@ -31,28 +31,28 @@ public class SearchEventsController {
     public ResponseEntity<?> searchEvents(@RequestParam(name="starts_at") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startsAt,
                                           @RequestParam(name="ends_at") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endsAt) {
         List<EventSummary> eventSummaryList = elasticsearchService.searchEvents(startsAt, endsAt);
-        SearchResponse response = new SearchResponse(eventSummaryList, null);
+        SearchResponse response = new SearchResponse(eventSummaryList);
         return ResponseEntity.ok(response);
     }
 
     @ResponseBody
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public ResponseEntity<?> handleMissingParameter(HttpServletRequest request, Throwable ex) {
-        SearchResponse response = new SearchResponse(null, new SearchError("001", ex.getMessage()));
+        SearchResponse response = new SearchResponse(new SearchError("001", ex.getMessage()));
         return ResponseEntity.badRequest().body(response);
     }
 
     @ResponseBody
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public ResponseEntity<?> handleArgumentTypeMismatch(HttpServletRequest request, Throwable ex) {
-        SearchResponse response = new SearchResponse(null, new SearchError("002", "Argument type mismatch"));
+        SearchResponse response = new SearchResponse(new SearchError("002", "Argument type mismatch"));
         return ResponseEntity.badRequest().body(response);
     }
 
     @ResponseBody
     @ExceptionHandler({Exception.class})
     public ResponseEntity<?> handleUnknownException(HttpServletRequest request, Throwable ex) {
-        SearchResponse response = new SearchResponse(null, new SearchError("003", ex.getMessage()));
+        SearchResponse response = new SearchResponse(new SearchError("003", ex.getMessage()));
         return ResponseEntity.internalServerError().body(response);
     }
 }

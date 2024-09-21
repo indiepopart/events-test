@@ -48,6 +48,7 @@ public class SearchEventsControllerTest {
                 .param("starts_at", "2021-01-01T00:00:00Z")
                 .param("ends_at", "2021-12-31T23:59:59Z"))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.error").isEmpty())
                 .andExpect(jsonPath("$.data.events").isArray())
                 .andExpect(jsonPath("$.data.events", hasSize(1)))
                 .andExpect(jsonPath("$.data.events[0].id").value("123e4567-e89b-12d3-a456-426614174000"))
@@ -66,6 +67,7 @@ public class SearchEventsControllerTest {
         this.mockMvc.perform(get("/search")
                         .param("starts_at", "2021-01-01T00:00:00Z"))
                 .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.error").isNotEmpty())
                 .andExpect(jsonPath("$.error.code").isNotEmpty())
                 .andExpect(jsonPath("$.error.message").isNotEmpty());
@@ -77,6 +79,7 @@ public class SearchEventsControllerTest {
                         .param("starts_at", "2021-01-01 00:00:00")
                         .param("ends_at", "2021-12-31 23:59:59"))
                 .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.error").isNotEmpty())
                 .andExpect(jsonPath("$.error.code").isNotEmpty())
                 .andExpect(jsonPath("$.error.message").isNotEmpty());;
@@ -90,6 +93,8 @@ public class SearchEventsControllerTest {
         this.mockMvc.perform(get("/search")
                 .param("starts_at", "2021-01-01T00:00:00Z")
                 .param("ends_at", "2021-12-31T23:59:59Z"))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.error").isNotEmpty());
     }
 }
