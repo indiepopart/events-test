@@ -28,7 +28,7 @@ The proposed solution has 3 components:
 First run the `fetch` standalone application, as it will start the `elasticsearch` and `kibana` containers:
 
 ```shell
-cd fecth
+cd fetch
 ./mvnw spring-boot:run
 ```
 
