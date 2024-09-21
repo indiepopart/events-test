@@ -21,7 +21,7 @@ public class BaseEventConverter implements Converter<BaseEvent, EventDocument> {
 
     @Override
     public EventDocument convert(BaseEvent source) {
-        logger.debug("Converting BaseEvent to EventDocument {}", source);
+        logger.debug("Converting BaseEvent to EventDocument {}", source.getBaseEventId());
         EventDocument document = new EventDocument();
         document.setId(source.getBaseEventId());
         document.setTitle(source.getTitle());
