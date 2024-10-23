@@ -1,13 +1,8 @@
-package com.fever.search.model;
+package com.fever.search.application.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.elasticsearch.annotations.Document;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.UUID;
-public class EventSummary {
+public class EventSummaryDTO {
 
     private String id;
 

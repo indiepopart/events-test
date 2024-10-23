@@ -1,4 +1,4 @@
-package com.fever.search.service;
+package com.fever.search.infrastructure.repository;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;

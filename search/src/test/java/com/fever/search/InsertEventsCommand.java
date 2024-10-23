@@ -1,7 +1,7 @@
 package com.fever.search;
 
 
-import com.fever.search.service.EventDocument;
+import com.fever.search.infrastructure.repository.EventDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

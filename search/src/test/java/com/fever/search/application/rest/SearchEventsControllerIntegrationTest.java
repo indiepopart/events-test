@@ -1,4 +1,4 @@
-package com.fever.search.web;
+package com.fever.search.application.rest;
 
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.HostConfig;

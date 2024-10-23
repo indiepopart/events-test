@@ -1,6 +1,6 @@
-package com.fever.search.service;
+package com.fever.search.infrastructure.repository;
 
-import com.fever.search.model.EventSummary;
+import com.fever.search.domain.BaseEvent;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 @Component
-public class EventDocumentConverter implements Converter<EventDocument, EventSummary> {
+public class EventDocumentConverter implements Converter<EventDocument, BaseEvent> {
 
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
@@ -20,15 +20,13 @@ public class EventDocumentConverter implements Converter<EventDocument, EventSum
     }
 
     @Override
-    public EventSummary convert(EventDocument source) {
-        EventSummary summary = new EventSummary();
+    public BaseEvent convert(EventDocument source) {
+        BaseEvent summary = new BaseEvent();
         summary.setId(source.getId());
         summary.setTitle(source.getTitle());
 
-        summary.setStartDate(dateFormatter.format(source.getEventStartDate()));
-        summary.setStartTime(timeFormatter.format(source.getEventStartDate()));
-        summary.setEndDate(dateFormatter.format(source.getEventEndDate()));
-        summary.setEndTime(timeFormatter.format(source.getEventEndDate()));
+        summary.setStartDate(source.getEventStartDate());
+        summary.setEndDate(source.getEventEndDate());
 
         summary.setMinPrice(source.getMinPrice());
         summary.setMaxPrice(source.getMaxPrice());

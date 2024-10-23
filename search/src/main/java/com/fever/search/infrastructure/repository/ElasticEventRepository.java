@@ -1,6 +1,7 @@
-package com.fever.search.service;
+package com.fever.search.infrastructure.repository;
 
-import com.fever.search.model.EventSummary;
+import com.fever.search.domain.BaseEvent;
+import com.fever.search.domain.repository.EventRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -8,24 +9,28 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.Query;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
-@Service
-public class ElasticsearchService {
+@Component
+public class ElasticEventRepository implements EventRepository {
 
-    private static Logger logger = LoggerFactory.getLogger(ElasticsearchService.class);
+    private static Logger logger = LoggerFactory.getLogger(ElasticEventRepository.class);
 
+
+    // Wraps SpringData repository
     private EventDocumentConverter eventDocumentConverter;
     private ElasticsearchOperations elasticSearchOperations;
 
-    public ElasticsearchService(EventDocumentConverter eventDocumentConverter, ElasticsearchOperations elasticSearchOperations) {
+    public ElasticEventRepository(EventDocumentConverter eventDocumentConverter, ElasticsearchOperations elasticSearchOperations) {
         this.eventDocumentConverter = eventDocumentConverter;
         this.elasticSearchOperations = elasticSearchOperations;
     }
 
-    public List<EventSummary> searchEvents(Date startsAt, Date endsAt) {
+    @Override
+    public List<BaseEvent> findEventsByStartAndEndDate(Date startsAt, Date endsAt) {
         // @formatter:off
 
         Criteria criteria = new Criteria("eventStartDate")
